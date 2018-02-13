@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                     http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://www.springframework.org/schema/security
+                     http://www.springframework.org/schema/security/spring-security.xsd" >
+
+    <!-- 打印调试信息，仅在开发时使用 -->
+    <debug/>
+
+    <!-- 静态资源，不用权限 -->
+    <http pattern="/resources/**" security="none" />
+    <http pattern="/css/**" security="none" />
+    <http pattern="/js/**" security="none" />
+    <http pattern="/img/**" security="none" />
+    <http pattern="/html/**" security="none" />
+    <http pattern="/favicon.ico" security="none" />
+
+    <http use-expressions="true" auto-config="true">
+        <!-- 关闭csrf保护 -->
+        <csrf disabled="true" />
+        <custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter" />
+
+        <!-- #################### 不需要控制权限 start #################### -->
+        <!-- 登录页面 -->
+        <intercept-url pattern="/account/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <!-- #################### 不需要控制权限  end  #################### -->
+
+        <!-- #################### 需要控制权限  start  #################### -->
+        <!-- 访问其他所有页面都需要有USER权限 -->
+        <intercept-url pattern="/**" access="ROLE_USER" />
+        <!-- #################### 需要控制权限   end   #################### -->
+    </http>
+
+    <beans:bean id="jwtAuthenticationFilter" class="edu.nju.ise.security.JwtAuthenticationTokenFilter" />
+    <beans:bean id="jwtUtils" class="edu.nju.ise.security.JwtTokenUtil" />
+
+</beans:beans>

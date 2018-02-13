@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.nju.ise.dao.AuthorityMapper">
+
+    <resultMap id="Authority" type="edu.nju.ise.model.Authority">
+        <result column="authority" property="authority" jdbcType="VARCHAR" />
+        <result column="authority_name" property="authorityName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="findById" resultMap="Authority">
+        SELECT * FROM `authority` WHERE `id` = #{id}
+    </select>
+
+</mapper>
