@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <!-- 处理jsp中复杂操作 -->
+
+    <description>JSTL 1.1 functions library</description>
+    <display-name>JSTL functions sys</display-name>
+    <tlib-version>1.1</tlib-version>
+    <short-name>fns</short-name>
+    <uri>http://java.sun.com/jsp/jstl/utils</uri>
+
+    <!-- 保留两位小数，处理成字符串 -->
+    <function>
+        <name>toFix</name>
+        <function-class>edu.nju.ise.utils.NumUtils</function-class>
+        <function-signature>java.lang.String toFix(double)</function-signature>
+    </function>
+
+</taglib>

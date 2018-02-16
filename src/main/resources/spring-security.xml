@@ -8,7 +8,7 @@
                      http://www.springframework.org/schema/security/spring-security.xsd" >
 
     <!-- 打印调试信息，仅在开发时使用 -->
-    <debug/>
+    <!--<debug/>-->
 
     <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
@@ -21,26 +21,28 @@
     </authentication-manager>
 
     <!-- 静态资源，不用权限 -->
-    <http pattern="/resources/**" security="none" />
+    <http pattern="/lib/**" security="none" />
+    <http pattern="/resource/**" security="none" />
     <http pattern="/css/**" security="none" />
     <http pattern="/js/**" security="none" />
     <http pattern="/img/**" security="none" />
     <http pattern="/html/**" security="none" />
     <http pattern="/favicon.ico" security="none" />
 
-    <http use-expressions="true" auto-config="true">
+    <http use-expressions="true" entry-point-ref="jwtAuthenticationEntryPoint">
         <!-- 关闭csrf保护 -->
         <csrf disabled="true" />
         <custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter" />
 
         <!-- #################### 不需要控制权限 start #################### -->
         <!-- 登录页面 -->
-        <intercept-url pattern="/account/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/auth/**" access="permitAll()" />
+        <intercept-url pattern="/admin/**" access="permitAll()" />
         <!-- #################### 不需要控制权限  end  #################### -->
 
         <!-- #################### 需要控制权限  start  #################### -->
         <!-- 访问其他所有页面都需要有USER权限 -->
-        <intercept-url pattern="/**" access="ROLE_USER" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <!-- #################### 需要控制权限   end   #################### -->
     </http>
 

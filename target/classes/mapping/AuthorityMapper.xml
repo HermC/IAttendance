@@ -3,9 +3,18 @@
 <mapper namespace="edu.nju.ise.dao.AuthorityMapper">
 
     <resultMap id="Authority" type="edu.nju.ise.model.Authority">
+        <result column="id" property="id" jdbcType="INTEGER" />
         <result column="authority" property="authority" jdbcType="VARCHAR" />
         <result column="authority_name" property="authorityName" jdbcType="VARCHAR" />
     </resultMap>
+
+    <insert id="insert" parameterType="java.util.List">
+        INSERT INTO `authority`
+        VALUES
+        <foreach collection="authorities" item="authority" separator=",">
+            (#{authority.id}, #{authority.authority}, #{authority.authorityName})
+        </foreach>
+    </insert>
 
     <select id="findById" resultMap="Authority">
         SELECT * FROM `authority` WHERE `id` = #{id}

@@ -3,10 +3,13 @@ package edu.nju.ise.service.impl;
 import edu.nju.ise.dao.AuthorityMapper;
 import edu.nju.ise.dao.UserMapper;
 import edu.nju.ise.exception.UserInvalidException;
+import edu.nju.ise.model.Authority;
 import edu.nju.ise.model.User;
 import edu.nju.ise.security.JwtTokenUtil;
 import edu.nju.ise.service.AuthService;
 import edu.nju.ise.utils.TimeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +21,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户验证接口实现类
@@ -29,6 +34,8 @@ import java.util.List;
  * */
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -56,7 +63,16 @@ public class AuthServiceImpl implements AuthService {
         userToAdd.setPassword(encoder.encode(rawPassword));
         userToAdd.setLastPasswordResetDate(TimeUtils.commonDate2Str(new Date()));
 
-        return null;
+        Integer state;
+        state = userMapper.insert(userToAdd);
+        logger.debug("注册用户: " + state + "条");
+        List<Authority> authorityList = authorities.stream()
+                .map(authority -> new Authority(userToAdd.getId(), authority, authority + "_name"))
+                .collect(Collectors.toList());
+        state = authorityMapper.insert(authorityList);
+        logger.debug("用户权限: " + state + "条");
+
+        return userToAdd;
     }
 
     @Override
@@ -87,6 +103,5 @@ public class AuthServiceImpl implements AuthService {
         } else {
             return null;
         }
-
     }
 }

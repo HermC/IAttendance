@@ -11,34 +11,48 @@ import java.util.Map;
  * */
 public class ResponseData {
 
-    private final int code;
-    private final String message;
-    private final Map<String, Object> data = new HashMap<>();
+    private  int code;
+    private  String message;
+    private  Object data;
 
     public ResponseData(int code, String message) {
         this.code = code;
         this.message = message;
     }
 
+    public ResponseData(int code, String message, Object data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
     public int getCode() {
         return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public Map<String, Object> getData() {
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Object getData() {
         return data;
     }
 
-    public ResponseData putDataValue(String key, Object value) {
-        data.put(key, value);
-        return this;
+    public void setData(Object data) {
+        this.data = data;
     }
 
-    public static ResponseData ok() {
-        return new ResponseData(200, "Ok");
+    public static ResponseData ok(Object data) {
+        ResponseData responseData = new ResponseData(200, "Ok", data);
+        return responseData;
     }
 
     public static ResponseData notFound() {

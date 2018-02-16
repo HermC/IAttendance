@@ -41,6 +41,9 @@ public class JwtTokenUtil implements Serializable {
         token = request.getHeader(tokenHeader);
         if (token == null) {
             Cookie[] cookies = request.getCookies();
+            if (cookies == null) {
+                return null;
+            }
             for (Cookie cookie: cookies) {
                 if (cookie.getName().equals(this.tokenHeader)) {
                     token = cookie.getValue();

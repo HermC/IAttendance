@@ -6,6 +6,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author Hermit
+ * @version 1.0 2018/02/13
+ * */
 public class User implements UserDetails {
 
     private static final long serialVersionID = 1L;

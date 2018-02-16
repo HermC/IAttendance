@@ -59,6 +59,8 @@ cmake-build-debug/
 
 # IntelliJ
 out/
+bower_components/
+node_modules/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

@@ -11,6 +11,12 @@
                      select="edu.nju.ise.dao.AuthorityMapper.findById" />
     </resultMap>
 
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="edu.nju.ise.model.User">
+        INSERT INTO `user`(`username`, `password`, `last_password_reset_date`)
+        VALUES (#{username}, #{password}, #{lastPasswordResetDate})
+    </insert>
+
     <select id="findByUsername" resultMap="User">
         SELECT * FROM `user` WHERE `username` = #{username}
     </select>

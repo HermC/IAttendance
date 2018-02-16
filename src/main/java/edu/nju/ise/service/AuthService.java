@@ -9,6 +9,8 @@ import java.util.List;
  *
  * @author Hermit
  * @version 1.0 2018/02/13
+ *
+ * @see User
  * */
 public interface AuthService {
 
